@@ -1,0 +1,63 @@
+{
+  "name": "squidit/container-mason",
+  "description": "PSR-11 compatible Interface to unify the creation of new container instances and objects",
+  "license": "MIT",
+  "type": "library",
+  "keywords": [
+    "container",
+    "dependency injection",
+    "di",
+    "PSR-11",
+    "psr11",
+    "coroutines",
+    "swow",
+    "swoole"
+  ],
+  "authors": [
+    {
+      "name": "Cecil Zorg",
+      "email": "developer@squidit.nl"
+    }
+  ],
+  "config": {
+    "sort-packages": true
+  },
+  "autoload": {
+    "psr-4": {
+      "SquidIT\\Container\\Mason\\": "src"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "SquidIT\\Test\\Container\\Mason\\": "tests"
+    }
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/squid-it/php-coding-standards.git"
+    }
+  ],
+  "require": {
+    "php": "^8.3",
+    "psr/container": "^2.0",
+    "psr/container-implementation": "^1.0"
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.50",
+    "league/container": "^4.2",
+    "php-di/php-di": "^7.0",
+    "phpstan/phpstan": "^1.10",
+    "phpunit/phpunit": "^11.0",
+    "squidit/php-coding-standards": "^1.0"
+  },
+  "scripts": {
+    "fix": "php-cs-fixer fix && phpstan analyse -l 8 src tests",
+    "check": "phpstan analyse -l 8 src tests",
+    "test:unit": "phpunit --testsuite unit",
+    "test:coverage": [
+      "@putenv XDEBUG_MODE=coverage",
+      "phpunit --testsuite unit --coverage-text"
+    ]
+  }
+}
