@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SquidIT\Test\Container\Mason\Unit\League;
+namespace SquidIT\Tests\Container\Mason\Unit\League;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
@@ -10,9 +10,9 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use SquidIT\Container\Mason\ContainerMasonInterface;
 use SquidIT\Container\Mason\League\LeagueContainerMason;
-use SquidIT\Test\Container\Mason\Classes\Mailer;
-use SquidIT\Test\Container\Mason\Classes\UserManager;
-use SquidIT\Test\Container\Mason\Classes\UserManagerHeavy;
+use SquidIT\Tests\Container\Mason\Classes\Mailer;
+use SquidIT\Tests\Container\Mason\Classes\UserManager;
+use SquidIT\Tests\Container\Mason\Classes\UserManagerHeavy;
 
 class LeagueContainerMasonTest extends TestCase
 {

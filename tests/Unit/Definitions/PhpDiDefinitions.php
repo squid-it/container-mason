@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
-use SquidIT\Test\Container\Mason\Classes\Mailer;
+use SquidIT\Tests\Container\Mason\Classes\Mailer;
 
 return [
     /**

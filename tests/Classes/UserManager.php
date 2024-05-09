@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SquidIT\Test\Container\Mason\Classes;
+namespace SquidIT\Tests\Container\Mason\Classes;
 
 use RuntimeException;
 
