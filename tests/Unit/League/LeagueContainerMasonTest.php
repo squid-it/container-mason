@@ -54,9 +54,9 @@ class LeagueContainerMasonTest extends TestCase
      * @throws NotFoundExceptionInterface
      * @throws Exception
      */
-    public function testGetNewReturnsMultipleNewObject(): void
+    public function testGetNewMultiReturnsMultipleNewObject(): void
     {
-        $results = $this->leagueDiContainerMason->getNew(Mailer::class, UserManager::class);
+        $results = $this->leagueDiContainerMason->getNewMulti(Mailer::class, UserManager::class);
 
         self::assertCount(2, $results);
         self::assertArrayHasKey(Mailer::class, $results);
@@ -74,8 +74,8 @@ class LeagueContainerMasonTest extends TestCase
     {
         $mailer1     = $this->leagueDiContainerMason->get(Mailer::class);
         $mailer2     = $this->leagueDiContainerMason->get(Mailer::class);
-        $mailer3     = $this->leagueDiContainerMason->getNew(Mailer::class)[Mailer::class];
-        $userManager = $this->leagueDiContainerMason->getNew(UserManager::class)[UserManager::class];
+        $mailer3     = $this->leagueDiContainerMason->getNew(Mailer::class);
+        $userManager = $this->leagueDiContainerMason->getNew(UserManager::class);
 
         self::assertSame($this->leagueDiContainerMason->get(UserManager::class), $this->leagueDiContainerMason->get(UserManager::class));
         self::assertSame($mailer1, $mailer2); // multiple calls return the same object

@@ -42,31 +42,6 @@ class LeagueContainerMason implements ContainerMasonInterface
     }
 
     /**
-     * @throws Exception
-     */
-    public function getNewContainer(): ContainerInterface
-    {
-        return $this->buildContainer();
-    }
-
-    /**
-     * @throws ContainerExceptionInterface|Exception|NotFoundExceptionInterface
-     *
-     * @return array<string, mixed>
-     */
-    public function getNew(string ...$ids): array
-    {
-        $result = [];
-
-        foreach ($ids as $id) {
-            /** @phpstan-ignore-next-line */
-            $result[$id] = $this->container->getNew($id);
-        }
-
-        return $result;
-    }
-
-    /**
      * Find an entry of the container by its identifier and returns it.
      * The returned entry will always be the same object instance/value
      *
@@ -85,6 +60,38 @@ class LeagueContainerMason implements ContainerMasonInterface
 
     /**
      * {@inheritDoc}
+     */
+    public function getNew(string $id): mixed
+    {
+        /** @phpstan-ignore-next-line */
+        return $this->container->getNew($id);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getNewMulti(string ...$ids): array
+    {
+        $result = [];
+
+        foreach ($ids as $id) {
+            /** @phpstan-ignore-next-line */
+            $result[$id] = $this->container->getNew($id);
+        }
+
+        return $result;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function getNewContainer(): ContainerInterface
+    {
+        return $this->buildContainer();
+    }
+
+    /**
+     * {@inheritDoc}
      *
      * @throws Exception
      */
@@ -98,7 +105,6 @@ class LeagueContainerMason implements ContainerMasonInterface
      */
     private function buildContainer(): ContainerInterface
     {
-        // $container = new Container();
         $container = new Container($this->definitionAggregate);
         $container->delegate(new ReflectionContainer(true));
 

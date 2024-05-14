@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SquidIT\Tests\Container\Mason\Unit\PhpDi;
 
+use DI\Container;
 use Exception;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerExceptionInterface;
@@ -53,9 +54,9 @@ class PhpDiContainerMasonTest extends TestCase
      * @throws NotFoundExceptionInterface
      * @throws Exception
      */
-    public function testGetNewReturnsMultipleNewObject(): void
+    public function testGetNewMultiReturnsMultipleNewObject(): void
     {
-        $results = $this->phpDiContainerMason->getNew(Mailer::class, UserManager::class);
+        $results = $this->phpDiContainerMason->getNewMulti(Mailer::class, UserManager::class);
 
         self::assertCount(2, $results);
         self::assertArrayHasKey(Mailer::class, $results);
@@ -71,13 +72,13 @@ class PhpDiContainerMasonTest extends TestCase
      */
     public function testGetNewReturnsNewObject(): void
     {
+        /** @var Container $container */
         $container = $this->phpDiContainerMason->getNewContainer();
 
         $mailer1 = $container->get(Mailer::class);
         $mailer2 = $container->get(Mailer::class);
-        $mailer3 = $this->phpDiContainerMason->getNew(Mailer::class)[Mailer::class];
+        $mailer3 = $this->phpDiContainerMason->getNew(Mailer::class);
 
-        /** @phpstan-ignore-next-line */
         $userManager = $container->make(UserManager::class);
 
         self::assertSame($mailer1, $mailer2); // multiple calls return the same object

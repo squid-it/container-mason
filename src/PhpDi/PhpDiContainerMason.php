@@ -41,23 +41,44 @@ class PhpDiContainerMason implements ContainerMasonInterface
     }
 
     /**
+     * Find an entry of the container by its identifier and returns it.
+     * The returned entry will always be the same object instance/value
+     *
+     * @param string $id Identifier of the entry to look for.
+     *
+     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
      * @throws Exception
+     * @throws ContainerExceptionInterface Error while retrieving the entry.*@throws Exception
+     *
+     * @return mixed Entry.
      */
-    public function getNewContainer(): ContainerInterface
+    public function get(string $id): mixed
     {
-        if (isset($this->containerBuilder)) {
-            return $this->containerBuilder->build();
-        }
-
-        return $this->buildContainer();
+        return $this->container->get($id);
     }
 
     /**
-     * @throws ContainerExceptionInterface|Exception|NotFoundExceptionInterface
+     * {@inheritDoc}
      *
-     * @return array<string, mixed>
+     * @throws Exception
      */
-    public function getNew(string ...$ids): array
+    public function getNew(string $id): mixed
+    {
+        /**
+         * PHP-DI make() method only creates a new instance for the requested id
+         * all dependencies of id will be fetched from the container and will reuse the same instances
+         *
+         * to fix this, we create a new container to force all dependencies to be new instances
+         */
+        return $this->getNewContainer()->get($id);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @throws Exception
+     */
+    public function getNewMulti(string ...$ids): array
     {
         /**
          * PHP-DI make() method only creates a new instance for the requested id
@@ -78,20 +99,15 @@ class PhpDiContainerMason implements ContainerMasonInterface
     }
 
     /**
-     * Find an entry of the container by its identifier and returns it.
-     * The returned entry will always be the same object instance/value
-     *
-     * @param string $id Identifier of the entry to look for.
-     *
-     * @throws NotFoundExceptionInterface  No entry was found for **this** identifier.
      * @throws Exception
-     * @throws ContainerExceptionInterface Error while retrieving the entry.*@throws Exception
-     *
-     * @return mixed Entry.
      */
-    public function get(string $id): mixed
+    public function getNewContainer(): ContainerInterface
     {
-        return $this->container->get($id);
+        if (isset($this->containerBuilder)) {
+            return $this->containerBuilder->build();
+        }
+
+        return $this->buildContainer();
     }
 
     /**
