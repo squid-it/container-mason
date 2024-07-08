@@ -18,7 +18,7 @@ class PhpDiContainerMason implements ContainerMasonInterface
     protected array $definitions;
 
     /** @var ContainerBuilder<Container> */
-    private ContainerBuilder $containerBuilder;
+    protected ContainerBuilder $containerBuilder;
 
     private ContainerInterface|Container $container;
 
@@ -123,7 +123,7 @@ class PhpDiContainerMason implements ContainerMasonInterface
     /**
      * @throws Exception
      */
-    private function buildContainer(): ContainerInterface
+    protected function buildContainer(): ContainerInterface
     {
         $containerBuilder = new ContainerBuilder();
         $containerBuilder->addDefinitions($this->definitions);

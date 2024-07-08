@@ -17,18 +17,16 @@ use UnexpectedValueException;
 
 class LeagueContainerMason implements ContainerMasonInterface
 {
+    protected readonly DefinitionAggregate $definitionAggregate;
     private ContainerInterface|Container $container;
-
-    private readonly DefinitionAggregate $definitionAggregate;
 
     /**
      * @param array<int|string, Definition> $definitions
      *
      * @throws Exception
      */
-    public function __construct(
-        array $definitions
-    ) {
+    public function __construct(array $definitions)
+    {
         foreach ($definitions as $definition) {
             if (!($definition instanceof Definition)) {
                 throw new UnexpectedValueException('Definitions must only contain instances of Definition.');
@@ -103,7 +101,7 @@ class LeagueContainerMason implements ContainerMasonInterface
     /**
      * @throws Exception
      */
-    private function buildContainer(): ContainerInterface
+    protected function buildContainer(): ContainerInterface
     {
         $container = new Container($this->definitionAggregate);
         $container->delegate(new ReflectionContainer(true));

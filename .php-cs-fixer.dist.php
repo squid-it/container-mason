@@ -15,13 +15,4 @@ return $phpFixer
     ->setFinder($finder)
     ->setCacheFile('.php-cs-fixer.cache')
     ->setRiskyAllowed(true)
-    ->setRules(Rules::getRules([
-        'single_line_empty_body' => true,
-        'binary_operator_spaces' => [
-            'default'   => 'align_single_space_minimal',
-            'operators' => [
-                '===' => 'single_space',
-                '??'  => 'single_space',
-            ],
-        ],
-    ]));
+    ->setRules(Rules::getRules());

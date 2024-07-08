@@ -49,7 +49,7 @@
     "php-di/php-di": "^7.0",
     "phpstan/phpstan": "^1.10",
     "phpunit/phpunit": "^11.0",
-    "squidit/php-coding-standards": "^1.0"
+    "squidit/php-coding-standards": "^1.0 || ^2.0"
   },
   "scripts": {
     "fix": "php-cs-fixer fix && phpstan analyse -l 8 src tests",
