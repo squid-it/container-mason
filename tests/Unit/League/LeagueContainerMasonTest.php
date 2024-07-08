@@ -6,13 +6,13 @@ namespace SquidIT\Tests\Container\Mason\Unit\League;
 
 use Exception;
 use PHPUnit\Framework\TestCase;
-use Psr\Container\ContainerExceptionInterface;
-use Psr\Container\NotFoundExceptionInterface;
 use SquidIT\Container\Mason\ContainerMasonInterface;
 use SquidIT\Container\Mason\League\LeagueContainerMason;
 use SquidIT\Tests\Container\Mason\Classes\Mailer;
 use SquidIT\Tests\Container\Mason\Classes\UserManager;
 use SquidIT\Tests\Container\Mason\Classes\UserManagerHeavy;
+use Throwable;
+use UnexpectedValueException;
 
 class LeagueContainerMasonTest extends TestCase
 {
@@ -21,25 +21,7 @@ class LeagueContainerMasonTest extends TestCase
     private ContainerMasonInterface $leagueDiContainerMason;
 
     /**
-     * @throws Exception
-     */
-    protected function setUp(): void
-    {
-        $filePath = sprintf(
-            '%s%s..%sDefinitions%s%s',
-            __DIR__,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            DIRECTORY_SEPARATOR,
-            self::DEFINITION_FILE_NAME
-        );
-
-        $definitionsArray             = require $filePath;
-        $this->leagueDiContainerMason = new LeagueContainerMason($definitionsArray);
-    }
-
-    /**
-     * @throws Exception
+     * @throws Throwable
      */
     public function testGetNewContainerReturnsNewContainer(): void
     {
@@ -50,9 +32,7 @@ class LeagueContainerMasonTest extends TestCase
     }
 
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws Exception
+     * @throws Throwable
      */
     public function testGetNewMultiReturnsMultipleNewObject(): void
     {
@@ -66,9 +46,7 @@ class LeagueContainerMasonTest extends TestCase
     }
 
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws Exception
+     * @throws Throwable
      */
     public function testGetNewReturnsNewObject(): void
     {
@@ -84,9 +62,7 @@ class LeagueContainerMasonTest extends TestCase
     }
 
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws Exception
+     * @throws Throwable
      */
     public function testGetReturnsSameObject(): void
     {
@@ -97,7 +73,7 @@ class LeagueContainerMasonTest extends TestCase
     }
 
     /**
-     * @throws Exception
+     * @throws Throwable
      */
     public function testHasReturnsCorrectBooleanValue(): void
     {
@@ -106,9 +82,7 @@ class LeagueContainerMasonTest extends TestCase
     }
 
     /**
-     * @throws ContainerExceptionInterface
-     * @throws NotFoundExceptionInterface
-     * @throws Exception
+     * @throws Throwable
      */
     public function testContainerIsLazyLoadingObjects(): void
     {
@@ -128,5 +102,37 @@ class LeagueContainerMasonTest extends TestCase
          */
         $memoryIncrease = $memoryAfterLoadingUserManager - $containerMemoryConsumption;
         self::assertGreaterThanOrEqual(UserManagerHeavy::INSTANTIATED_SIZE, $memoryIncrease);
+    }
+
+    /**
+     * @throws Throwable
+     */
+    public function testConstructorThrowsExceptionOnInvalidDefinitionsArray(): void
+    {
+        $definitionsArray = [new Mailer()];
+
+        $this->expectException(UnexpectedValueException::class);
+        $this->expectExceptionMessage('Definitions must only contain instances of Definition.');
+
+        /** @phpstan-ignore-next-line */
+        new LeagueContainerMason($definitionsArray);
+    }
+
+    /**
+     * @throws Exception
+     */
+    protected function setUp(): void
+    {
+        $filePath = sprintf(
+            '%s%s..%sDefinitions%s%s',
+            __DIR__,
+            DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
+            DIRECTORY_SEPARATOR,
+            self::DEFINITION_FILE_NAME
+        );
+
+        $definitionsArray             = require $filePath;
+        $this->leagueDiContainerMason = new LeagueContainerMason($definitionsArray);
     }
 }
